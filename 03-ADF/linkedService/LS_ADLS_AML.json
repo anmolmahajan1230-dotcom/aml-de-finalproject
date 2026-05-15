@@ -1,0 +1,10 @@
+{
+	"name": "LS_ADLS_AML",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://bootcampfinalproject.dfs.core.windows.net/"
+		}
+	}
+}
