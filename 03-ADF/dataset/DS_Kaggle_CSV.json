@@ -1,0 +1,27 @@
+{
+	"name": "DS_Kaggle_CSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_Kaggle_HTTP",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"p_file_name": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "/datasets/download/ealtman2019/ibm-transactions-for-anti-money-laundering-aml/@{dataset().p_file_name}"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
