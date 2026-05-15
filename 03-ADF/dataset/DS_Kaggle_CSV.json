@@ -15,7 +15,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "@concat('/datasets/download/ealtman2019/ibm-transactions-for-anti-money-laundering-aml/', dataset().p_file_name)"
+				"relativeUrl": "/datasets/download/ealtman2019/ibm-transactions-for-anti-money-laundering-aml/HI-Small_Trans.csv"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
