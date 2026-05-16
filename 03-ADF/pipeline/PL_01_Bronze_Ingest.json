@@ -17,6 +17,24 @@
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",
+						"additionalColumns": [
+							{
+								"name": "_ingest_ts",
+								"value": "@utcNow()"
+							},
+							{
+								"name": "_source_file",
+								"value": "@pipeline().parameters.p_file_name"
+							},
+							{
+								"name": "_pipeline_run",
+								"value": "@pipeline().RunId"
+							},
+							{
+								"name": "_batch_id",
+								"value": "@concat(pipeline().parameters.p_run_date, '-', pipeline().parameters.p_file_name)"
+							}
+						],
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
