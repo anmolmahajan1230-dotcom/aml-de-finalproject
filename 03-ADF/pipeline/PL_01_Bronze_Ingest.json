@@ -45,184 +45,19 @@
 						}
 					},
 					"sink": {
-						"type": "ParquetSink",
+						"type": "DelimitedTextSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
-							"type": "ParquetWriteSettings"
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
 						}
 					},
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
-						"mappings": [
-							{
-								"source": {
-									"name": "Timestamp",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "transaction_timestamp",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "From Bank",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "from_bank",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "Account2",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "from_account",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "To Bank",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "to_bank",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "Account4",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "to_account ",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "Amount Received",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "amount_received",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "Receiving Currency",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "receiving_currency",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "Amount Paid",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "amount_paid",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "Payment Currency",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "payment_currency",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "Payment Format",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "payment_format",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "Is Laundering",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "is_laundering",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "_ingest_ts",
-									"type": "String"
-								},
-								"sink": {
-									"name": "_ingest_ts",
-									"type": "String",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "_source_file",
-									"type": "String"
-								},
-								"sink": {
-									"name": "_source_file",
-									"type": "String",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "_pipeline_run",
-									"type": "String"
-								},
-								"sink": {
-									"name": "_pipeline_run",
-									"type": "String",
-									"physicalType": "UTF8"
-								}
-							},
-							{
-								"source": {
-									"name": "_batch_id",
-									"type": "String"
-								},
-								"sink": {
-									"name": "_batch_id",
-									"type": "String",
-									"physicalType": "UTF8"
-								}
-							}
-						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -241,11 +76,8 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_Bronze_Parquet_Sink",
-						"type": "DatasetReference",
-						"parameters": {
-							"p_file_name": "@pipeline().parameters.p_file_name"
-						}
+						"referenceName": "DS_Bronze_CSV_Sink",
+						"type": "DatasetReference"
 					}
 				]
 			}

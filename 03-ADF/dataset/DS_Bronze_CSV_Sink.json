@@ -1,0 +1,23 @@
+{
+	"name": "DS_Bronze_CSV_Sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_AML",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "bronze/transactions",
+				"fileSystem": "aml-data"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
