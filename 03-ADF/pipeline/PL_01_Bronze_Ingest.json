@@ -17,24 +17,6 @@
 				"typeProperties": {
 					"source": {
 						"type": "DelimitedTextSource",
-						"additionalColumns": [
-							{
-								"name": "_ingest_ts",
-								"value": "@utcNow()"
-							},
-							{
-								"name": "_source_file",
-								"value": "@pipeline().parameters.p_file_name"
-							},
-							{
-								"name": "_pipeline_run",
-								"value": "@pipeline().RunId"
-							},
-							{
-								"name": "_batch_id",
-								"value": "@concat(pipeline().parameters.p_run_date, '-', pipeline().parameters.p_file_name)"
-							}
-						],
 						"storeSettings": {
 							"type": "AzureBlobFSReadSettings",
 							"recursive": true,
@@ -58,6 +40,118 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "Timestamp",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "transaction_timestamp",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "From Bank",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "from_bank",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Account",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "from_account",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "To Bank",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "to_bank",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Amount Received",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "amount_received",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Receiving Currency",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "receiving_currency",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Amount Paid",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "amount_paid",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Payment Currency",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "payment_currency",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Payment Format",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "payment_format",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "Is Laundering",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "is_laundering",
+									"physicalType": "String"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
