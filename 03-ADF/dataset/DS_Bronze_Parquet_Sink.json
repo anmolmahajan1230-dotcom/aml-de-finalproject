@@ -1,0 +1,26 @@
+{
+	"name": "DS_Bronze_Parquet_Sink",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_ADLS_AML",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"p_file_name": {
+				"type": "string",
+				"defaultValue": "@concat(replace(dataset().p_file_name, '.csv', ''), '.parquet')"
+			}
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"folderPath": "bronze/transactions",
+				"fileSystem": "aml-data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
