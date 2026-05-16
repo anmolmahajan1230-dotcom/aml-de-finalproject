@@ -32,7 +32,11 @@
 				"     ignoreNoFilesFound: false) ~> BronzeSource",
 				"BronzeSource select(skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> RenameColumns",
-				"RenameColumns derive({_silver_ts} = currentTimestamp()) ~> AddFeatures"
+				"RenameColumns derive({_silver_ts} = currentTimestamp(),",
+				"          is_cross_currency = toInteger(`Receiving Currency` != `Payment Currency`),",
+				"          is_cross_bank = toInteger(`From Bank` != `To Bank`),",
+				"          txn_hour = ERROR_FUNCTION('hour(toTimestamp(`Timestamp`, __SINGLE_QUOTE__yyyy-MM-dd HH:mm:ss__SINGLE_QUOTE__)'),",
+				"          is_laundering_flag = toInteger(`Is Laundering`)) ~> AddFeatures"
 			]
 		}
 	}
