@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "bronze_HI-Small_Trans.csv",
 				"folderPath": "bronze/transactions",
 				"fileSystem": "aml-data"
 			},
