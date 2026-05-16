@@ -1,0 +1,44 @@
+{
+	"name": "DF_Silver_Transform",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "DS_Bronze_CSV_Source",
+						"type": "DatasetReference"
+					},
+					"name": "BronzeSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "RenameColumns"
+				},
+				{
+					"name": "AddFeatures"
+				}
+			],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false) ~> source1",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> BronzeSource",
+				"BronzeSource select(skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> RenameColumns",
+				"RenameColumns derive(is_cross_currency = toInteger(receiving_currency != payment_currency),",
+				"          is_cross_bank = toInteger(from_bank != to_bank),",
+				"          txn_hour = hour(toTimestamp(toString(transaction_timestamp))),",
+				"          txn_day_of_week = dayOfWeek(toTimestamp(toString(transaction_timestamp))),",
+				"          is_near_threshold = ERROR_FUNCTION(''),",
+				"          {_silver_ts} = currentTimestamp()) ~> AddFeatures"
+			]
+		}
+	}
+}
