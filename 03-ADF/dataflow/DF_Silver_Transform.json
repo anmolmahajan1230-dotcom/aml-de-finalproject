@@ -5,9 +5,6 @@
 		"typeProperties": {
 			"sources": [
 				{
-					"name": "source1"
-				},
-				{
 					"dataset": {
 						"referenceName": "DS_Bronze_CSV_Source",
 						"type": "DatasetReference"
@@ -15,7 +12,15 @@
 					"name": "BronzeSource"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "DS_Silver_CSV_Sink",
+						"type": "DatasetReference"
+					},
+					"name": "SilverSink"
+				}
+			],
 			"transformations": [
 				{
 					"name": "RenameColumns"
@@ -29,18 +34,19 @@
 			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> source1",
-				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> BronzeSource",
 				"BronzeSource select(skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> RenameColumns",
-				"RenameColumns derive({_silver_ts} = currentTimestamp(),",
-				"          is_cross_currency = toInteger(`Receiving Currency` != `Payment Currency`),",
-				"          is_cross_bank = toInteger(`From Bank` != `To Bank`),",
-				"          txn_hour = ERROR_FUNCTION('hour(toTimestamp(`Timestamp`, __SINGLE_QUOTE__yyyy-MM-dd HH:mm:ss__SINGLE_QUOTE__)'),",
-				"          is_laundering_flag = toInteger(`Is Laundering`)) ~> AddFeatures",
-				"AddFeatures filter(!isNull(`Amount Paid`) && !isNull(`From Bank`) && !isNull(`To Bank`) && toDouble(`Amount Paid`) > 0) ~> FilterValidRecords"
+				"RenameColumns derive({_silver_ts} = currentTimestamp()) ~> AddFeatures",
+				"AddFeatures filter(!isNull(`Amount Paid`) && !isNull(`From Bank`) && !isNull(`To Bank`) && toDouble(`Amount Paid`) > 0) ~> FilterValidRecords",
+				"FilterValidRecords sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     umask: 0022,",
+				"     preCommands: [],",
+				"     postCommands: [],",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SilverSink"
 			]
 		}
 	}
