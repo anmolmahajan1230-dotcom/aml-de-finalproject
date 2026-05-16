@@ -27,12 +27,23 @@
 						}
 					},
 					"sink": {
-						"type": "BinarySink",
+						"type": "ParquetSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "ParquetWriteSettings"
 						}
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
 				},
 				"inputs": [
 					{
@@ -45,8 +56,11 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "DS_ADLS_Binary_Landing",
-						"type": "DatasetReference"
+						"referenceName": "DS_Bronze_Parquet_Sink",
+						"type": "DatasetReference",
+						"parameters": {
+							"p_file_name": "@pipeline().parameters.p_file_name"
+						}
 					}
 				]
 			}
