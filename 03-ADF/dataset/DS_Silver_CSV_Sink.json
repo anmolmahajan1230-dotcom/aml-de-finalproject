@@ -5,6 +5,12 @@
 			"referenceName": "LS_ADLS_AML",
 			"type": "LinkedServiceReference"
 		},
+		"parameters": {
+			"p_file_name": {
+				"type": "string",
+				"defaultValue": "HI-Small_Trans.csv"
+			}
+		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
