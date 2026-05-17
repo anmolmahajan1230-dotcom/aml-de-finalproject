@@ -1,0 +1,46 @@
+{
+	"name": "DF_Gold_Aggregate",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "DS_Silver_CSV_Sink",
+						"type": "DatasetReference"
+					},
+					"name": "SilverSource"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "AddGoldFeatures"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          Timestamp as string,",
+				"          {From Bank} as string,",
+				"          Account as string,",
+				"          {To Bank} as string,",
+				"          {To Account} as string,",
+				"          {Amount Received} as string,",
+				"          {Receiving Currency} as string,",
+				"          {Amount Paid} as string,",
+				"          {Payment Currency} as string,",
+				"          {Payment Format} as string,",
+				"          {Is Laundering} as string,",
+				"          {_silver_ts} as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SilverSource",
+				"SilverSource derive(is_cross_currency = iif(toString(byName('Receiving Currency')) != toString(byName('Payment Currency')), 1, 0),",
+				"          is_cross_bank = iif(toString(byName('From Bank')) != toString(byName('To Bank')), 1, 0),",
+				"          is_laundering_int = toInteger(toString(byName('Is Laundering'))),",
+				"          txn_hour =  hour(toTimestamp(toString(byName('Timestamp')), 'yyyy-MM-dd HH:mm:ss'))) ~> AddGoldFeatures"
+			]
+		}
+	}
+}
